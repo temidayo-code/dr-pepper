@@ -232,13 +232,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(pair[0] + ": " + pair[1]);
       }
 
-      const response = await fetch(
-        `https://dr-pepper-x.vercel.app/send-email`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(process.env.API_URL, {
+        method: "POST",
+        body: formData,
+      });
 
       const data = await response.json();
 
@@ -260,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong. Please try again.",
+        text: error.message || "Something went wrong. Please try again.",
         confirmButtonColor: "#c81533",
       });
     } finally {
