@@ -232,10 +232,13 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(pair[0] + ": " + pair[1]);
       }
 
-      const response = await fetch(process.env.API_URL, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `https://dr-pepper-x.vercel.app/send-email`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
 
