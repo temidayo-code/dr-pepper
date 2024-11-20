@@ -7,19 +7,18 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
-
-app.get("/home", (req, res) => {
-  res.status(200).json("Welcome, your app is working well");
-});
-
 // Middleware
 app.use(cors());
 app.use(express.static("public"));
 
-// Optional: explicit route for root
+// Root route
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
+});
+
+// Test route
+app.get("/home", (req, res) => {
+  res.status(200).json("Welcome, your app is working well");
 });
 
 // Configure multer for handling form data
