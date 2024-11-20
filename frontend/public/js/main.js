@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(pair[0] + ": " + pair[1]);
       }
 
-      const response = await fetch("http://localhost:3000/send-email", {
+      const response = await fetch(`${process.env.API_URL}/send-email`, {
         method: "POST",
         body: formData,
       });
