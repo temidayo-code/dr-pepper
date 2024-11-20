@@ -28,9 +28,9 @@ const transporter = nodemailer.createTransport({
 });
 
 // Test email configuration
-transporter.verify(function(error, success) {
+transporter.verify((error, success) => {
     if (error) {
-        console.log('Email server error:', error);
+        console.error('Email server error:', error);
     } else {
         console.log('Email server is ready');
     }
@@ -103,7 +103,5 @@ app.post('/send-email', upload.none(), async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-}); 
+// Export as a handler for Vercel
+module.exports = app;
