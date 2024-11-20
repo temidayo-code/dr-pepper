@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  // Initialize phone input
   let phoneInput;
   const phoneElement = document.querySelector("#phone");
   if (phoneElement) {
@@ -87,17 +88,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Form validation
   function validateForm() {
     let isValid = true;
     let firstError = null;
 
+    // Validate required fields
     const inputs = form.querySelectorAll("input[required]");
     inputs.forEach((input) => {
       const errorDiv = input.parentElement.querySelector(".error-message");
       if (!input.value.trim()) {
         input.classList.add("error");
         if (errorDiv) {
-          errorDiv.textContent = `${input.previousElementSibling.textContent.replace(" *", "")} is required`;
+          errorDiv.textContent = `${input.previousElementSibling.textContent.replace(
+            " *",
+            ""
+          )} is required`;
           errorDiv.style.display = "block";
         }
         if (!firstError) firstError = input;
@@ -111,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Email validation
+    // Validate email
     const emailInput = form.querySelector("#email");
     const emailError =
       emailInput?.parentElement.querySelector(".error-message");
@@ -128,9 +134,10 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // Phone validation
+    // Validate phone
     if (!phoneInput || !phoneElement.value.trim()) {
-      const phoneError = phoneElement?.parentElement.querySelector(".error-message");
+      const phoneError =
+        phoneElement?.parentElement.querySelector(".error-message");
       phoneElement.classList.add("error");
       if (phoneError) {
         phoneError.textContent = "Phone number is required";
@@ -150,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // Year validation
+    // Validate car year
     const yearInput = form.querySelector("#carYear");
     const yearError = yearInput?.parentElement.querySelector(".error-message");
     const currentYear = new Date().getFullYear();
@@ -220,8 +227,12 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("phone", phoneInput.getNumber());
       }
 
-      // Updated fetch call to use CONFIG.API_URL
-      const response = await fetch(`${CONFIG.API_URL}/send-email`, {
+      // Log form data for debugging
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+
+      const response = await fetch("http://localhost:3000/send-email", {
         method: "POST",
         body: formData,
       });
@@ -237,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         form.reset();
         phoneInput.destroy();
-        initializePhoneInput();
+        initializePhoneInput(); // Reinitialize phone input after form reset
       } else {
         throw new Error(data.message);
       }
@@ -264,7 +275,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const phoneElement = document.querySelector("#phone");
     if (phoneElement) {
       return window.intlTelInput(phoneElement, {
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        utilsScript:
+          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
         preferredCountries: ["us", "gb", "ca"],
         separateDialCode: true,
       });
